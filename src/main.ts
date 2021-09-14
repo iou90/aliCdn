@@ -1,18 +1,37 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import axios from 'axios'
 
-async function run(): Promise<void> {
+import {getUrl, Parameters} from './sdk'
+
+interface CdnError {
+  response?: {data?: {Message: string}}
+}
+
+const run: () => Promise<void> = async () => {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const accessKeyId = core.getInput('accessKeyId')
+    const appSecret = core.getInput('appSecret')
+    const version = core.getInput('version')
+    const action = core.getInput('action')
+    const parametersInputs = core.getInput('parameters')
+    const parameters: Parameters = {}
+    if (parametersInputs) {
+      for (const {key, value} of JSON.parse(parametersInputs)) {
+        parameters[key] = value
+      }
+    }
+    try {
+      const url = getUrl(accessKeyId, appSecret, action, parameters, version)
+      const result = await axios.get(url)
+      if (result?.data) {
+        core.setOutput('result', JSON.stringify(result.data))
+      }
+    } catch (error) {
+      console.error((error as CdnError)?.response?.data?.Message)
+      core.setFailed((error as Error).message)
+    }
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed((error as Error).message)
   }
 }
 
