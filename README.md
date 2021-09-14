@@ -22,7 +22,7 @@ Action parameters, JSON array with "key" & "value", example: [{ "key": "DomainNa
 
 ## `version`
 
-Sdk version.
+Sdk version. Default `"2018-05-10"`
 
 ## Outputs
 
