@@ -22,5 +22,5 @@ outputs:
   result:
     description: 'action result'
 runs:
-  using: 'node14'
+  using: 'node12'
   main: 'dist/index.js'
