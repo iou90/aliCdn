@@ -33,7 +33,7 @@ type GetUrl = (
   appSecret: string,
   action: string,
   parameters: Parameters,
-  version?: string
+  version: string
 ) => string
 
 export const getUrl: GetUrl = (
@@ -41,7 +41,7 @@ export const getUrl: GetUrl = (
   appSecret,
   action,
   parameters: Parameters = {},
-  version = '2018-05-10'
+  version
 ) => {
   const params = sortParameterKeys(
     Object.assign({}, commonConfig, parameters, {

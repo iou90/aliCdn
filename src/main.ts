@@ -27,8 +27,7 @@ const run: () => Promise<void> = async () => {
         core.setOutput('result', JSON.stringify(result.data))
       }
     } catch (error) {
-      console.error((error as CdnError)?.response?.data?.Message)
-      core.setFailed((error as Error).message)
+      core.setFailed((error as CdnError)?.response?.data?.Message as string)
     }
   } catch (error) {
     core.setFailed((error as Error).message)

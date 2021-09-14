@@ -16,6 +16,7 @@ inputs:
     description: 'action name'
   version:
     description: 'sdk version'
+    default: '2018-05-10'
   parameters:
     description: 'action parameters, JSON array with "key" & "value", example: [{ "key": "DomainName", "value": "xxx.xxx.com"}]'
 outputs:
