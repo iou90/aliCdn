@@ -1,11 +1,23 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'aliCdn'
+description: 'aliCloud cdn sdk'
+author: 'iou90'
 inputs:
-  milliseconds: # change this
+  accessKeyId:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'access key id'
+  appSecret:
+    required: true
+    description: 'app secret'
+  action:
+    required: true
+    description: 'action name'
+  version:
+    description: 'sdk version'
+  parameters:
+    description: 'action parameters, JSON array with "key" & "value", example: [{ "key": "DomainName", "value": "xxx.xxx.com"}]'
+outputs:
+  result:
+    description: 'action result'
 runs:
-  using: 'node12'
+  using: 'node14'
   main: 'dist/index.js'
