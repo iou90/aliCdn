@@ -41,13 +41,9 @@ steps:
     id: getCdnDomainConfigs
     with:
       accessKeyId: your key id
-      accessSecret: your key secret
+      appSecret: your key secret
       action: DescribeCdnDomainConfigs
-      parameters:
-        [
-          {'key': 'DomainName', 'value': 'xxx.xxx.com'},
-          {'key': 'FunctionNames', 'value': 'back_to_origin_url_rewrite'}
-        ]
+      parameters: '[ { "key": "DomainName", "value": "square.bybutter.com" }, { "key": "FunctionNames", "value": "back_to_origin_url_rewrite" }, ]'
   - name: Set Cdn Action Parameters
     id: setCdnAction
     run: |
@@ -60,7 +56,7 @@ steps:
     uses: iou90/aliCdn
     with:
       accessKeyId: your key id
-      accessSecret: your key secret
+      appSecret: your key secret
       action: BatchSetCdnDomainConfig
-      parameters: {{steps.setCdnAction.parameters}}
+      parameters: ${{steps.setCdnAction.parameters}}
 ```
