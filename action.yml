@@ -1,6 +1,9 @@
-name: 'aliCdn'
+name: 'ali-cdn-sdk'
 description: 'aliCloud cdn sdk'
 author: 'iou90'
+branding:
+  icon: 'cloud-rain'
+  color: 'green'
 inputs:
   accessKeyId:
     required: true
