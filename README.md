@@ -31,13 +31,15 @@ Sdk version. Default `"2018-05-10"`.
 Sdk invoking result.
 
 ## Example usage
+Ali cloud cdn api reference: https://help.aliyun.com/product/27099.html
+
 
 Get config id of your cdn domain, and then using it to rewrite the "back_to_origin_url".
 
 ```yaml
 steps:
   - name: Get Cdn Domain Configs
-    uses: iou90/aliCdn@v0.0.5
+    uses: iou90/aliCdn@v1.0.0
     id: getCdnDomainConfigs
     with:
       accessKeyId: accessKeyId
@@ -58,7 +60,7 @@ steps:
     env:
       result: ${{ steps.getCdnDomainConfigs.outputs.result }}
   - name: Rewrite back_to_origin_url
-    uses: iou90/aliCdn@v0.0.5
+    uses: iou90/aliCdn@v1.0.0
     with:
       accessKeyId: accessKeyId
       appSecret: appSecret
