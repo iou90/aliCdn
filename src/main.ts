@@ -9,14 +9,16 @@ interface CdnError {
 
 const run: () => Promise<void> = async () => {
   try {
+    core.info('heyheyhey')
     const accessKeyId = core.getInput('accessKeyId')
     const appSecret = core.getInput('appSecret')
     const version = core.getInput('version')
     const action = core.getInput('action')
+    core.info('hey')
     const parametersInputs = core.getInput('parameters')
-    core.debug(typeof parametersInputs)
-    core.debug(parametersInputs)
-    core.debug(JSON.parse(parametersInputs))
+    core.info(typeof parametersInputs)
+    core.info(parametersInputs)
+    core.info(JSON.parse(parametersInputs))
     let parameters: Parameters = {}
     if (parametersInputs) {
       parameters = JSON.parse(parametersInputs)
