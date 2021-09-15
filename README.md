@@ -18,11 +18,11 @@ This action provides aliCloud cdn sdk.
 
 ## `parameters`
 
-Action parameters, JSON array with "key" & "value", example: [{ "key": "DomainName", "value": "xxx.xxx.com"}]
+Action parameters, JSON array with "key" & "value", example: { "DomainName": "xxx.xxx.com", "FunctionNames": "back_to_origin_url_rewrite" }.
 
 ## `version`
 
-Sdk version. Default `"2018-05-10"`
+Sdk version. Default `"2018-05-10"`.
 
 ## Outputs
 
@@ -37,26 +37,31 @@ Get config id of your cdn domain, and then using it to rewrite the "back_to_orig
 ```yaml
 steps:
   - name: Get Cdn Domain Configs
-    uses: iou90/aliCdn
+    uses: iou90/aliCdn@v0.0.5
     id: getCdnDomainConfigs
     with:
-      accessKeyId: your key id
-      appSecret: your key secret
+      accessKeyId: accessKeyId
+      appSecret: appSecret
       action: DescribeCdnDomainConfigs
-      parameters: '[ { "key": "DomainName", "value": "square.bybutter.com" }, { "key": "FunctionNames", "value": "back_to_origin_url_rewrite" }, ]'
+      parameters: '{ "DomainName": "xxx.xxx.com", "FunctionNames": "back_to_origin_url_rewrite" }'
   - name: Set Cdn Action Parameters
     id: setCdnAction
     run: |
-      export configId=$result | jq '.DomainConfigs.DomainConfig[0].ConfigId'
-      export actionParameters=[{"key":"DomainNames","value":"xxx.xxx.com"},{"key":"Functions","value":[{"functionName":"back_to_origin_url_rewrite","functionArgs":[{"argName":"source_url","argValue":"xxx"},{"argName":"target_url","argValue":"xxx"}],"configId":$configId}]}]
+      export configId=$(echo $result | jq '.DomainConfigs.DomainConfig[0].ConfigId')
+      echo $configId
+      export target_url=xxx
+      export functionsValue=$(printf '[{"functionName":"back_to_origin_url_rewrite","functionArgs":[{"argName":"source_url","argValue":"source_url"},{"argName":"target_url","argValue":%s}],"configId":%s}]' $target_url $configId) 
+      export normalizedFunctions=$(echo $functionsValue | jq --raw-input)
+      export actionParameters=$(printf '{ "DomainNames": "xxx.xxx.com", "Functions": %s }' $normalizedFunctions)
+      echo $actionParameters
       echo ::set-output name=parameters::$(echo $actionParameters)
     env:
       result: ${{ steps.getCdnDomainConfigs.outputs.result }}
   - name: Rewrite back_to_origin_url
-    uses: iou90/aliCdn
+    uses: iou90/aliCdn@v0.0.5
     with:
-      accessKeyId: your key id
-      appSecret: your key secret
+      accessKeyId: accessKeyId
+      appSecret: appSecret
       action: BatchSetCdnDomainConfig
-      parameters: ${{steps.setCdnAction.parameters}}
+      parameters:  ${{ steps.setCdnAction.outputs.parameters }}
 ```

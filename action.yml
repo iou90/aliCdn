@@ -18,7 +18,7 @@ inputs:
     description: 'sdk version'
     default: '2018-05-10'
   parameters:
-    description: 'action parameters, JSON array with "key" & "value", example: [{ "key": "DomainName", "value": "xxx.xxx.com"}]'
+    description: 'action parameters, JSON array with "key" & "value", example: { "DomainName": "xxx.xxx.com", "FunctionNames": "back_to_origin_url_rewrite" }'
 outputs:
   result:
     description: 'action result'

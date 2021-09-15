@@ -14,11 +14,9 @@ const run: () => Promise<void> = async () => {
     const version = core.getInput('version')
     const action = core.getInput('action')
     const parametersInputs = core.getInput('parameters')
-    const parameters: Parameters = {}
+    let parameters: Parameters = {}
     if (parametersInputs) {
-      for (const {key, value} of JSON.parse(parametersInputs)) {
-        parameters[key] = value
-      }
+      parameters = JSON.parse(parametersInputs)
     }
     try {
       const url = getUrl(accessKeyId, appSecret, action, parameters, version)
