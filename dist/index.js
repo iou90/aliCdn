@@ -49,11 +49,9 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
         const version = core.getInput('version');
         const action = core.getInput('action');
         const parametersInputs = core.getInput('parameters');
-        const parameters = {};
+        let parameters = {};
         if (parametersInputs) {
-            for (const { key, value } of JSON.parse(parametersInputs)) {
-                parameters[key] = value;
-            }
+            parameters = JSON.parse(parametersInputs);
         }
         try {
             const url = (0, sdk_1.getUrl)(accessKeyId, appSecret, action, parameters, version);
@@ -63,8 +61,7 @@ const run = () => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
         catch (error) {
-            console.error((_c = (_b = (_a = error) === null || _a === void 0 ? void 0 : _a.response) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.Message);
-            core.setFailed(error.message);
+            core.setFailed((_c = (_b = (_a = error) === null || _a === void 0 ? void 0 : _a.response) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.Message);
         }
     }
     catch (error) {
@@ -102,7 +99,7 @@ const sortParameterKeys = parameters => {
     return response;
 };
 const fixedEncodeURIComponent = input => encodeURIComponent(input).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
-const getUrl = (accessKeyId, appSecret, action, parameters = {}, version = '2018-05-10') => {
+const getUrl = (accessKeyId, appSecret, action, parameters = {}, version) => {
     const params = sortParameterKeys(Object.assign({}, commonConfig, parameters, {
         Version: version,
         AccessKeyId: accessKeyId,
