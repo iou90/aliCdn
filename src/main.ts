@@ -14,6 +14,9 @@ const run: () => Promise<void> = async () => {
     const version = core.getInput('version')
     const action = core.getInput('action')
     const parametersInputs = core.getInput('parameters')
+    core.debug(typeof parametersInputs)
+    core.debug(parametersInputs)
+    core.debug(JSON.parse(parametersInputs))
     let parameters: Parameters = {}
     if (parametersInputs) {
       parameters = JSON.parse(parametersInputs)
